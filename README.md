@@ -1,3 +1,3 @@
-# java-ds-lib
+# ds-lib
 
-Practice creating common DS in Java
+Practice creating common DS in different languages.
