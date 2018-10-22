@@ -1,7 +1,7 @@
 class PriorityQueue {
   constructor(compFunc){
     this.keys = [];
-    this.comparator = compFunc || (a,b) => a > b; //Default to max pq
+    this.comparison = compFunc || function(a,b) {return a > b} //Default to max pq
   } 
   
   insert(val){
@@ -24,9 +24,10 @@ class PriorityQueue {
   
   
   greaterPriority(a, b){
-    return this.comparator(a, b);
+    return this.comparison(a, b);
   }
   
+  //Top down "Reheapify"
   sink(i){
     let leftChildIndex = this.leftChildIndex(i);
     let rightChildIndex = this.rightChildIndex(i);
@@ -37,20 +38,30 @@ class PriorityQueue {
       let j = leftChildIndex;
       
       //If the right child has greater priority, set it as j
-      if(j < size && this.greaterPriority(rightChildIndex, leftChildIndex))
+      if(j < size && this.greaterPriority(this.keys[rightChildIndex], this.keys[leftChildIndex]))
         j++;
       //If the current index is greater priority than its children, we're done
-      if(!this.greaterPriority(i, j ))
+      if(this.greaterPriority(this.keys[i], this.keys[j]))
         break;
       //Swap the parent with the child of greater priority
       this.swap(i, j);
       //Set the pos of the child as the "root"
       i = j;
+      //Find its children
+      leftChildIndex = this.leftChildIndex(i);
+      rightChildIndex = this.rightChildIndex(i);
     }
   }
   
+  //Bottom up "Reheapify"
   swim(i){
-    //TODO
+    //While not the root and i has greater priority than its parent
+    let parentIndex = this.parentIndex(i);
+    while(i > 0 && this.greaterPriority(this.keys[i], this.keys[parentIndex])){
+      this.swap(i, parentIndex);
+      i = parentIndex;
+      parentIndex = this.parentIndex(i);
+    }
   }
   
   swap(a, b){
@@ -89,3 +100,40 @@ class MinPQ extends PriorityQueue {
     super((a,b) => a < b);
   }
 }
+
+let x = new MaxPQ();
+let y = new MinPQ();
+
+x.insert(3);
+x.insert(546);
+x.insert(31);
+x.insert(788);
+x.insert(1);
+x.insert(2);
+x.insert(5);
+x.insert(324);
+
+y.insert(3);
+y.insert(546);
+y.insert(31);
+y.insert(788);
+y.insert(1);
+y.insert(2);
+y.insert(5);
+y.insert(2);
+y.insert(324);
+
+console.log(x.max()); // 788
+console.log(y.max()); // 1
+
+x.extractMax();
+y.extractMax();
+
+console.log(x.max()); // 546
+console.log(y.max()); // 2
+
+x.extractMax();
+y.extractMax();
+
+console.log(x.max()); // 324
+console.log(y.max()); // 2
