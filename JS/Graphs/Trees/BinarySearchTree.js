@@ -2,105 +2,72 @@ class BinarySearchTree {
   constructor(){
     this.root = null;
   }
-
-  insert(data){
-    let node = new BinaryTreeNode(data);
+  
+  insert(val){
     if(this.root == null)
-      root = node;
+      this.root = new BinaryNode(val);
     else
-      this.insertNode(this.root, node); //Starting from root, find where it belongs
-    
+      this._insertHelper(this.root, val)
   }
   
-  insertNode(parentNode, newNode){
-  	if(newNode.getVal() < parentNode.getVal()){
-    	if(parentNode.getLeft() == null){
-      	parentNode.setLeft(newNode.getVal());
-      }else{
-      	this.insertNode(parentNode.getLeft(), newNode)
-      }
-    }else{
-    	if(parentNode.getRight() == null){
-      	parentNode.setRight(newNode.getVal());
-      }else{
-      	this.insertNode(parentNode.getRight(), newNode);
-      }
-    }
-  }
-    // remove(data) 
-  remove(data){
-  	this.root = this.removeData(this.root, data);
+  findMin(node){
+    if(isLeaf(node))
+      return node.getData();
+    findMin(node.getLeft());
   }
   
-  removeNode(node, key){
-  	if(node == null)
-    	return null;
-    
-    //Search left or right depending on value
-    if(key < node.getVal()){
-    	node.left = this.removeNode(node.left, key);
-      return node;
-    }
-    else if(key > node.getVal()){
-    	node.right = this.removeNode(node.right, key);
-      return node;
-    }   
-    //Once found
-    else{
-    	if(this.isLeaf(node)){
-      	node = null;
-        return node;
-      }
-      else if(node.getLeft() == null){
-      	node = node.getRight();
-        return node;
-      }
-      else if(node.getRight() == null){
-      	node = node.getLeft();
-        return node;
-      }
-      
-      //If node has two children, we replace it with the smallest value of its right
-      //subtree and remove that smallest right node
-      let smallestNode = this.findMinNode(node.getRight());
-      node.setData(smallestNode.getData());
-      
-      node.setRight(this.removeNode(node.getRight(), smallestNode.getData()));
-    }
-  }
-  
-  isLeaf(node){
-  	return node.getRight() == null && node.getLeft() == null;
-  }
-  
-  inOrderPrint(node){
-  	if(node == null)
-    	return;
-    this.inOrderPrint(node.getLeft());
-    console.log(node.getVal());
-    this.inOrderPrint(node.getRight());
-  }
-  
-  preOrderPrint(node){
-  	if(node == null)
-    	return;
-    console.log(node.getVal());
-    this.preOrdePrint(node.getLeft());
-    this.preOrderPrint(node.getRight());
-  }
-  
-  postOrderPrint(node){
-  	if(node == null)
-    	return;
-    this.postOrderPrint(node.getLeft());
-    this.postOrderPrint(node.getRight());
-    console.log(node.getVal());
+  findMax(node){
+    if(isLeaf(node))
+      return node.getData();
+    findMax(node.getRight());
   }
   
   getRoot(){
-  	return this.root;
+    return this.root;
   }
-    // Helper function 
-    // findMinNode() 
-    // search(node, data) 
+  
+  isLeaf(node){
+    return node.getLeft() == null && node.getRight() == null;
+  }
+  
+  isInternal(node){
+    return node.getLeft() != null || node.getRight() != null;
+  }
+  _insertHelper(parent, val){
+    if(parent == null)
+      parent = new BinaryNode(val);
+    
+    else{
+      if(val < parent.getData()){
+        if(parent.getLeft() == null)
+          parent.setLeft(new BinaryNode(val));
+        else
+          this._insertHelper(parent.getLeft(), val);
+      }
+      
+      else{
+        if(parent.getRight() == null)
+          parent.setRight(new BinaryNode(val));
+        else
+          this._insertHelper(parent.getRight(), val);
+      }
+    }
+  }
+  
+  inOrder(node = this.root){
+    if(node == null)
+      return;
+    this.inOrder(node.getLeft());
+    console.log(node.getData());
+    this.inOrder(node.getRight());
+  }
 }
+
+
+let x = new BinarySearchTree();
+
+x.insert(4);
+x.insert(6);
+x.insert(5);
+x.insert(2);
+x.insert(8);
