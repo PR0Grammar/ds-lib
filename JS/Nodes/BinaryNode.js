@@ -10,13 +10,13 @@ class BinaryNode{
   }
   
   setLeft(node){
-    if(!(node instanceof Node))
+    if(!(node instanceof BinaryNode))
       throw new Error('Must be a node');
     this.left = node;
   }
   
   setRight(node){
-    if(!(node instanceof Node))
+    if(!(node instanceof BinaryNode))
       throw new Error('Must be a node');
     this.right = node;
   }
