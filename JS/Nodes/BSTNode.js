@@ -53,3 +53,5 @@ class BSTNode{
     this.rightNode = node;
   }
 }
+
+module.exports = BSTNode;
