@@ -36,7 +36,7 @@ class Stack {
 
 }
 
-(function test() {
+function test() {
     let stack = new Stack();
 
     console.log(stack.size()); // 0
@@ -48,11 +48,13 @@ class Stack {
     stack.push(3);
     stack.push(54);
 
-    console.log(stack.size()); // 3
+    console.log('Size: ' + stack.size()); // 3
     console.log(stack.peek()); // 54
     console.log(stack.pop()); // 54
-    console.log(stack.size()); // 2
+    console.log('Size: ' + stack.size()); // 2
     console.log(stack.peek()); // 3
     console.log(stack.isEmpty()); // false
 
-})();
+}
+
+test();
