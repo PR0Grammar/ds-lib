@@ -1,4 +1,4 @@
-const BSTNode = require('../../Nodes/BSTNode');
+const BSTNode = require('../Nodes/BSTNode');
 
 class BinarySearchTree {
   constructor(){
@@ -70,14 +70,20 @@ class BinarySearchTree {
   }
 }
 
-let x = new BinarySearchTree();
+function test(){
+  let x = new BinarySearchTree();
 
-x.insert(2, 'w');
-x.insert(0, 'a');
-x.insert(4, 'b');
-x.insert(3, 'c');
+  x.insert(2, 'w');
+  x.insert(0, 'a');
+  x.insert(4, 'b');
+  x.insert(3, 'c');
+  x.insert(1, 'f');
 
-x.inOrder();
+  x.inOrder(); // a --> f --> w --> c --> b
 
-console.log(x.find(3)); // c
-console.log(x.find(7)); // null
+  console.log(x.find(3)); // c
+  console.log(x.find(1)) // f
+  console.log(x.find(7)); // null
+}
+
+test();
