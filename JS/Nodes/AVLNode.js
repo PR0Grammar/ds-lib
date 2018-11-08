@@ -1,9 +1,9 @@
 class AVLNode {
-    constructor(key, val, height, size){
+    constructor(key, val){
         this.key = key;
         this.val = val;
-        this.size = size;
-        this.height = height;
+        this.size = 1;
+        this.height = 0;
         this.left = null;
         this.right = null;
     }
