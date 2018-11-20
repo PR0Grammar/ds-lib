@@ -8,31 +8,21 @@ class AVL{
     insert(key, val){
         if(key == null)
             throw new Error('Null key.');
-            
-        if(this.root == null)
-            this.root = new Node(key, val);
-        else
-            this._insert(this.root, key, val);
-        
-
+        this.root = this._insert(this.root, key, val);
     }
 
     _insert(node, key, val){
-        if(key < node.key){
-            if(node.left == null)
-                node.left = new Node(key, val);
-            else
-                return this._insert(node.left, key, val);
-        }
-        else{
-            if(node.right == null)
-                node.right = new Node(key, val);
-            else
-                return this._insert(node.right, key, val);
-        }
+        if(node == null)
+            return new Node(key, val);
+        if(key < node.key)
+            node.left = this._insert(node.left, key, val);
+        else if(key > node.key)
+            node.right = this._insert(node.right, key, val);
+        else
+            return node;
 
         node.size = 1 + this._size(node.left) + this.size(node.right);
-        node.height = 1 + Math.max(this._height(node.left), this._height(node.right));
+        node.height = 1 + Math.max(this.height(node.left), this.height(node.right));
         return this._balance(node)
     }
 
@@ -86,8 +76,8 @@ class AVL{
         node.size = 1 + this._size(node.left) + this._size(node.right);
 
         //Update height
-        y = 1 + Math.max(this._height(node.left), this._height(node.right));
-        node = 1 + Math.max(this._height(node.left), this._height(node.right));
+        y.height = 1 + Math.max(this.height(node.left), this.height(node.right));
+        node.height = 1 + Math.max(this.height(node.left), this.height(node.right));
 
         return y;
     }
@@ -101,23 +91,17 @@ class AVL{
 
         //Update sizes
         y.size = node.size
-        node.size = 1 + this._size(left) + this._size(right)
+        node.size = 1 + this._size(node.left) + this._size(node.right)
 
         //Update heights
-        y = 1 + Math.max(this._height(node.left), this._height(node.right));
-        node = 1 + Math.max(this._height(node.left), this._height(node.right));
+        y.height = 1 + Math.max(this.height(node.left), this.height(node.right));
+        node.height = 1 + Math.max(this.height(node.left), this.height(node.right));
 
         return y;
     }
 
     _balanceFactor(node){
-        return this.height(node.left) - this._height(node.right)
-    }
-
-    _height(node){
-        if(node == null)
-            return -1;
-        return node.height
+        return this.height(node.left) - this.height(node.right)
     }
 
     _size(node){
@@ -182,6 +166,10 @@ function test(){
     x.insert(4, 'c')
     x.inOrderPrint()
     console.log('___')
+    
+    console.log(x.root)
+    console.log(x.height(x.root))
+    
 }
 
 test()
